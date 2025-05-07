@@ -1,0 +1,204 @@
+/* Global */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #f0f4f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+  }
+  
+  /* Banner */
+  .banner {
+    background: linear-gradient(135deg, #005f73 0%, #0a9396 100%);
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .banner h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 2rem;
+  }
+  
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+  .col {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+  }
+  
+  /* Form */
+  .form label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .form label i {
+    margin-right: 8px;
+    color: #0a9396;
+  }
+  .form input,
+  .form select {
+    flex: 1;
+    padding: 8px 12px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .form input:focus,
+  .form select:focus {
+    border-color: #0a9396;
+    box-shadow: 0 0 0 2px rgba(10,147,150,0.2);
+    outline: none;
+  }
+  .form hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 16px 0;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    background: #0a9396;
+    color: #fff;
+    padding: 10px 20px;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 10px;
+  }
+  .btn i {
+    margin-right: 8px;
+  }
+  .btn:hover {
+    background: #005f73;
+    transform: translateY(-2px);
+  }
+  
+  /* Output */
+  .output h2 {
+    font-size: 1.5rem;
+    color: #005f73;
+    margin-bottom: 12px;
+  }
+  .output p {
+    margin: 8px 0;
+  }
+  .outside {
+    color: #d62828;
+    font-weight: bold;
+  }
+  
+  /* Sidebar */
+  .sidebar h2 {
+    font-size: 1.2rem;
+    border-bottom: 2px solid #0a9396;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+  }
+  .sidebar pre {
+    background: #eef6f7;
+    padding: 12px;
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  .sidebar li {
+    margin-bottom: 6px;
+  }
+  
+
+  /* Add at the top or bottom of your file */
+
+/* Make body a positioning context */
+body {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Blurred full-screen background */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url("ship.webp") no-repeat center/cover;
+    filter: blur(12px) brightness(0.7);
+    z-index: -1;
+  }
+  
+  /* Ensure your main container is above the background */
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+  
+
+
+
+
+
+  /* History table styling */
+/* History table: black header, white/grey rows */
+.history-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+.history-table th,
+.history-table td {
+  padding: 10px 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+.history-table thead th {
+  background: #000;    /* solid black header */
+  color: #fff;         /* white text */
+  font-weight: 600;
+}
+.history-table tbody tr:nth-child(odd) {
+  background: #fff;    /* white for odd rows */
+}
+.history-table tbody tr:nth-child(even) {
+  background: #f2f2f2; /* light grey for even rows */
+}
+.history-table tbody tr:hover {
+  background: #ccc;    /* darker grey on hover */
+}
+.history-btn {
+  display: inline-flex;
+  align-items: center;
+  background: #444;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+.history-btn:hover {
+  background: #222;
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Suez Canal Toll Calculator</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <!-- Header Banner -->
+    <header class="banner">
+      <h1><i class="fas fa-water"></i> Suez Canal Toll Calculator</h1>
+    </header>
+
+    <div class="grid">
+
+      <!-- Left: Input form -->
+      <div class="col form">
+        <form method="POST">
+          <label>
+            <i class="fas fa-clock"></i> α (wait cost/hr):
+            <input name="alpha" type="number" step="0.01" required>
+          </label>
+          <label>
+            <i class="fas fa-hourglass-start"></i> β (early penalty):
+            <input name="beta" type="number" step="0.01" required>
+          </label>
+          <label>
+            <i class="fas fa-hourglass-half"></i> γ (late penalty):
+            <input name="gamma" type="number" step="0.01" required>
+          </label>
+          <label>
+            <i class="fas fa-ship"></i> N (ships/day):
+            <input name="N" type="number" step="1" required>
+          </label>
+          <label>
+            <i class="fas fa-anchor"></i> S (capacity/day):
+            <input name="S" type="number" step="1" required>
+          </label>
+          <label>
+            <i class="fas fa-stopwatch"></i> t* (cutoff HH:MM):
+            <input name="t_star" type="time" value="23:00" required>
+          </label>
+          <hr>
+          <label>
+            <i class="fas fa-clock"></i> Arrival t (HH:MM):
+            <input name="t" type="time" required>
+          </label>
+          <label>
+            <i class="fas fa-list"></i> Vessel Type:
+            <select name="vessel_type">
+              {% for ty in types %}
+                <option value="{{ ty }}">{{ ty }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            <i class="fas fa-weight-hanging"></i> Deadweight (DWT):
+            <input name="dwt" type="number" step="1" required>
+          </label>
+          <button type="submit" class="btn">
+            <i class="fas fa-calculator"></i> Calculate
+          </button>
+        </form>
+      </div>
+
+      <!-- Middle: Output -->
+      <div class="col output">
+        <h2><i class="fas fa-chart-line"></i> Results</h2>
+        {% if result %}
+          <p><strong>t<sub>q</sub>:</strong> {{ result.t_q }}</p>
+          <p><strong>t<sub>on</sub>:</strong> {{ result.t_on }}</p>
+          <p><strong>t<sub>q'</sub>:</strong> {{ result.t_qp }}</p>
+          <p><strong>Equilibrium Cost TC<sub>e</sub>:</strong> {{ result.TC_e }}</p>
+          <p><strong>Core Toll τ<sub>core</sub>(t):</strong>
+            {% if result.tau_core is none %}
+              <span class="outside">Outside window</span>
+            {% else %}
+              {{ result.tau_core }}
+            {% endif %}
+          </p>
+          <p><strong>Billed Toll:</strong>
+            {% if result.billed is none %}
+              <span class="outside">N/A</span>
+            {% else %}
+              {{ result.billed }}
+            {% endif %}
+            <em>({{ result.vessel_type }}, {{ result.dwt }} DWT)</em>
+          </p>
+        {% endif %}
+        {% if result %}
+  <!-- existing result display -->
+  <a href="{{ url_for('history') }}" class="btn history-btn">
+    <i class="fas fa-history"></i> View History
+  </a>
+{% endif %}
+      </div>
+
+      <!-- Right: Formulas & Glossary -->
+      <div class="col sidebar">
+        <h2><i class="fas fa-book"></i> Formulas</h2>
+        <pre>
+/* Window bounds */
+t_q   = t* - (γ/(β+γ))·(N/S)
+t_on  = t* - (β·γ/(α(β+γ)))·(N/S)
+t_q'  = t* + (β/(β+γ))·(N/S)
+
+/* Equilibrium cost */
+TC_e  = (β·γ/(β+γ))·(N/S)
+
+/* Core toll */
+τ_core(t)=
+  TC_e - β·(t* - t),    t_q ≤ t < t*
+  TC_e,                 t = t*
+  TC_e - γ·(t - t*),    t* < t ≤ t_q'
+
+/* Billed toll */
+τ_billed = τ_core × type_mult × (DWT/1000)
+        </pre>
+
+        <h2><i class="fas fa-list-alt" ></i> Glossary of Symbols</h2>
+        <ul style="font-size: 14px;">
+          <li><strong>t</strong> – arrival time</li>
+          <li><strong>T<sub>Q</sub>(t)</strong> – wait time</li>
+          <li><strong>t*</strong> – cutoff 23:00</li>
+          <li><strong>α, β, γ</strong> – unit costs</li>
+          <li><strong>N, S</strong> – ships/day & capacity</li>
+          <li><strong>t<sub>q</sub>, t<sub>on</sub>, t<sub>q'</sub></strong> – window bounds</li>
+          <li><strong>TC<sub>e</sub></strong> – equilibrium cost</li>
+          <li><strong>τ<sub>core</sub>(t)</strong> – core time-varying toll</li>
+          <li><strong>τ<sub>billed</sub></strong> – final toll scaled by vessel</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

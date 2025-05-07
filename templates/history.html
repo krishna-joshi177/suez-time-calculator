@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculation History</title>
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header class="banner">
+      <h1><i class="fas fa-history"></i> Search History</h1>
+    </header>
+    <div class="history-table">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Time (UTC)</th>
+            <th>α,β,γ</th><th>N/S</th>
+            <th>t*</th><th>t</th>
+            <th>Type/DWT</th>
+            <th>tq–ton–tq'</th>
+            <th>TCe</th><th>τcore</th><th>Billed</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.timestamp[:19].replace('T',' ') }}</td>
+            <td>{{ r.alpha }},{{ r.beta }},{{ r.gamma }}</td>
+            <td>{{ r.N }}/{{ r.S }}</td>
+            <td>{{ r.t_star }}</td>
+            <td>{{ r.t }}</td>
+            <td>{{ r.vessel_type }}/{{ r.dwt }}</td>
+            <td>{{ r.t_q }}–{{ r.t_on }}–{{ r.t_qp }}</td>
+            <td>{{ r.TC_e }}</td>
+            <td>{{ r.tau_core or 'N/A' }}</td>
+            <td>{{ r.billed or 'N/A' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="{{ url_for('index') }}" class="btn history-btn">
+        <i class="fas fa-arrow-left"></i> Back
+      </a>
+    </div>
+  </div>
+</body>
+</html>
