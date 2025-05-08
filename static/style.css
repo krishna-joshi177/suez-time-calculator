@@ -133,9 +133,10 @@ body {
   /* Add at the top or bottom of your file */
 
 /* Make body a positioning context */
-body {
+
+  body {
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden;   */
   }
   
   /* Blurred full-screen background */
@@ -147,6 +148,7 @@ body {
     background: url("ship.webp") no-repeat center/cover;
     filter: blur(12px) brightness(0.7);
     z-index: -1;
+    pointer-events: none;    /* <-- add this */
   }
   
   /* Ensure your main container is above the background */
@@ -155,7 +157,6 @@ body {
     z-index: 1;
   }
   
-
 
 
 
